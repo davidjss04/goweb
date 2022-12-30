@@ -9,10 +9,10 @@ import (
 )
 
 type Mail struct {
-	Message_ID string `json:"message-id"`
-	From       string `json:"from"`
-	To         string `json:"to"`
-	Content    string `json:"content"`
+	MessageId string `json:"message_id"`
+	From      string `json:"from"`
+	To        string `json:"to"`
+	Content   string `json:"content"`
 }
 
 type Index struct {
@@ -29,7 +29,7 @@ func NewIndex(index string) Index {
 
 func NewMail(message_id string, from string, to string, content string) Mail {
 	newMail := Mail{}
-	newMail.Message_ID = message_id
+	newMail.MessageId = message_id
 	newMail.From = from
 	newMail.To = to
 	newMail.Content = content

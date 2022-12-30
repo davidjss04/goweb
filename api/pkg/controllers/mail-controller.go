@@ -52,7 +52,7 @@ func GetMailById(w http.ResponseWriter, r *http.Request) {
 
 	json.Unmarshal([]byte(*bodyReq), &struc)
 
-	mail.Message_ID = struc.Hits.Hits[0].Source.MessageID
+	mail.MessageId = struc.Hits.Hits[0].Source.MessageID
 	mail.From = struc.Hits.Hits[0].Source.From
 	mail.To = struc.Hits.Hits[0].Source.To
 	mail.Content = struc.Hits.Hits[0].Source.Content
@@ -76,7 +76,7 @@ func SearchMail(w http.ResponseWriter, r *http.Request) {
 
 	for _, hit := range struc.Hits.Hits {
 		mail := models.Mail{}
-		mail.Message_ID = hit.Source.MessageID
+		mail.MessageId = hit.Source.MessageID
 		mail.From = hit.Source.From
 		mail.To = hit.Source.To
 		mail.Content = hit.Source.Content
@@ -92,11 +92,9 @@ func SearchMail(w http.ResponseWriter, r *http.Request) {
 func searchMailOfZincSearch(phrase string) *[]byte {
 
 	query := `{
-		"search_type": "alldocuments",
+		"search_type": "matchphrase",
 		"query": {
-			"query_string": {
-				"query": "` + phrase + `"
-			}
+				"term": "` + phrase + `"
 		},
 		"sort_fields": ["-@timestamp"],
 		"from": 0,
