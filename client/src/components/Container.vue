@@ -11,11 +11,10 @@ const searchMail = (e: any) => {
 onUpdated(() => {
     console.log('updated');
 });
-
 </script>
 
-<template lang="">
-    <div class="p-4">
+<template>
+    <div class="p-10">
         <label for="table-search" class="sr-only">Search</label>
         <div class="relative mt-1">
             <div
@@ -44,12 +43,9 @@ onUpdated(() => {
             />
         </div>
     </div>
-    <div class="container mx-auto p-10">
-        <div class="grid grid-cols-2 gap-4">
-            <slot />
-        </div>
+    <div class="grid grid-cols-2 gap-4">
+        <slot />
     </div>
 </template>
-
 
 <style lang=""></style>

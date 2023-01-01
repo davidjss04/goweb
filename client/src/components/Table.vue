@@ -16,7 +16,6 @@ watchEffect(() => {
     console.log('watchEffect table');
     console.log('desde table', state.mails);
 });
-
 </script>
 
 <template lang="">
@@ -49,7 +48,7 @@ watchEffect(() => {
                     >
                         {{ mail.message_id.split('.')[1] }}
                     </th>
-                    <td class="px-6 py-4">{{ mail.from  }}</td>
+                    <td class="px-6 py-4">{{ mail.from }}</td>
                     <td class="px-6 py-4">{{ mail.to }}</td>
                     <td class="px-6 py-4 text-right">
                         <a
