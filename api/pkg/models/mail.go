@@ -1,11 +1,6 @@
 package models
 
 import (
-	"fmt"
-	"os"
-	"sort"
-
-	"github.com/jhillyerd/enmime"
 )
 
 type Mail struct {
@@ -36,41 +31,3 @@ func NewMail(message_id string, from string, to string, content string) Mail {
 	return newMail
 }
 
-func ReadMail(path string, option string) string {
-
-	r, err := os.Open(path)
-	if err != nil {
-		fmt.Print(err)
-		return ""
-	}
-
-	// Parse message with enmime.
-	env, err := enmime.ReadEnvelope(r)
-	if err != nil {
-		fmt.Print(err)
-		return ""
-	}
-
-	// A list of headers is retrieved via Envelope.GetHeaderKeys().
-	headers := env.GetHeaderKeys()
-	sort.Strings(headers)
-
-	r.Close()
-
-	switch option {
-	case "message-id":
-		return env.GetHeader("Message-ID")
-	case "from":
-		return env.GetHeader("From")
-	case "to":
-		if env.GetHeader("To") == "" {
-			return "undiagnosed recipient"
-		}
-
-		return env.GetHeader("To")
-	case "content":
-		return env.Text
-	default:
-		return ""
-	}
-}

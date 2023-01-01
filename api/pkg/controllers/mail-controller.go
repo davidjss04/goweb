@@ -36,7 +36,7 @@ type strucResponse struct {
 			Source    struct {
 				Content   string `json:"content"`
 				From      string `json:"from"`
-				MessageID string `json:"message-id"`
+				MessageID string `json:"message_id"`
 				To        string `json:"to"`
 			} `json:"_source"`
 		} `json:"hits"`
@@ -98,16 +98,16 @@ func searchMailOfZincSearch(phrase string) *[]byte {
 		},
 		"sort_fields": ["-@timestamp"],
 		"from": 0,
-		"max_results": 1000,
+		"max_results": 100,
 		"_source": [
-			"message-id",
+			"message_id",
 			"from",
 			"to",
 			"content"
 		]
 	}`
 
-	req, err := http.NewRequest("POST", "http://localhost:4080/api/newmaisv6/_search", strings.NewReader(query))
+	req, err := http.NewRequest("POST", "http://localhost:4080/api/newMails/_search", strings.NewReader(query))
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -140,14 +140,14 @@ func getMailOfZincSearch(mailId string) *[]byte {
 		"from": 0,
 		"max_results": 1,
 		"_source": [
-			"message-id",
+			"message_id",
 			"from",
 			"to",
 			"content"
 		]
 	}`
 
-	req, err := http.NewRequest("POST", "http://localhost:4080/api/newmaisv6/_search", strings.NewReader(query))
+	req, err := http.NewRequest("POST", "http://localhost:4080/api/newMails/_search", strings.NewReader(query))
 	if err != nil {
 		log.Fatal(err)
 	}
