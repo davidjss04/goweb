@@ -18,7 +18,7 @@ export function useState() {
             return;
         }
 
-        const res = await fetch(`http://localhost:3000/mails/${mail}`);
+        const res = await fetch(`http://localhost:3000/mails/emails/${mail}`);
         const data = await res.json();
 
         if (data === null) {

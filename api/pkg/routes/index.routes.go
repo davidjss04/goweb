@@ -6,6 +6,6 @@ import (
 )
 
 var RegisterMailRoutes = func(route chi.Router) {
-	route.Get("/mail/{mailId}", controllers.GetMailById)
-	route.Get("/mails/{phrase}", controllers.SearchMail)
+	route.Get("/mail/{indexName}/{mailId}", controllers.GetMailById)
+	route.Get("/mails/{indexName}/{phrase}", controllers.SearchMail)
 }

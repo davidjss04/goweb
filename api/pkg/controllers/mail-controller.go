@@ -45,7 +45,9 @@ type strucResponse struct {
 
 func GetMailById(w http.ResponseWriter, r *http.Request) {
 	mailIdParam := chi.URLParam(r, "mailId")
-	bodyReq := getMailOfZincSearch(mailIdParam)
+	indexName := chi.URLParam(r, "indexName")
+
+	bodyReq := getMailOfZincSearch(mailIdParam, indexName)
 
 	var struc strucResponse
 	var mail models.Mail
@@ -67,7 +69,8 @@ func GetMailById(w http.ResponseWriter, r *http.Request) {
 
 func SearchMail(w http.ResponseWriter, r *http.Request) {
 	phrase := chi.URLParam(r, "phrase")
-	bodyReq := searchMailOfZincSearch(phrase)
+	indexName := chi.URLParam(r, "indexName")
+	bodyReq := searchMailOfZincSearch(phrase, indexName)
 
 	var struc strucResponse
 	var mails []models.Mail
@@ -89,7 +92,7 @@ func SearchMail(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(mails)
 }
 
-func searchMailOfZincSearch(phrase string) *[]byte {
+func searchMailOfZincSearch(phrase string, index string) *[]byte {
 
 	query := `{
 		"search_type": "matchphrase",
@@ -98,7 +101,7 @@ func searchMailOfZincSearch(phrase string) *[]byte {
 		},
 		"sort_fields": ["-@timestamp"],
 		"from": 0,
-		"max_results": 100,
+		"max_results":1000,
 		"_source": [
 			"message_id",
 			"from",
@@ -107,7 +110,7 @@ func searchMailOfZincSearch(phrase string) *[]byte {
 		]
 	}`
 
-	req, err := http.NewRequest("POST", "http://localhost:4080/api/newMails/_search", strings.NewReader(query))
+	req, err := http.NewRequest("POST", "http://localhost:4080/api/"+index+"/_search", strings.NewReader(query))
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -129,7 +132,7 @@ func searchMailOfZincSearch(phrase string) *[]byte {
 	return &body
 }
 
-func getMailOfZincSearch(mailId string) *[]byte {
+func getMailOfZincSearch(mailId string, indexName string) *[]byte {
 
 	query := `{
 		"search_type": "alldocuments",
@@ -147,7 +150,7 @@ func getMailOfZincSearch(mailId string) *[]byte {
 		]
 	}`
 
-	req, err := http.NewRequest("POST", "http://localhost:4080/api/newMails/_search", strings.NewReader(query))
+	req, err := http.NewRequest("POST", "http://localhost:4080/api/"+indexName+"/_search", strings.NewReader(query))
 	if err != nil {
 		log.Fatal(err)
 	}

@@ -20,13 +20,6 @@ type Index struct {
 	Records *[]Mail `json:"records"`
 }
 
-func NewIndex(index string) Index {
-	newIndex := Index{}
-	newIndex.Index = index
-	newIndex.Records = &[]Mail{}
-	return newIndex
-}
-
 func NewMail(message_id string, from string, to string, content string) Mail {
 	newMail := Mail{}
 	newMail.MessageId = message_id
@@ -35,6 +28,14 @@ func NewMail(message_id string, from string, to string, content string) Mail {
 	newMail.Content = content
 	return newMail
 }
+
+func NewIndex(index string) Index {
+	newIndex := Index{}
+	newIndex.Index = index
+	newIndex.Records = &[]Mail{}
+	return newIndex
+}
+
 
 func ReadMail(path string, option string) string {
 
@@ -74,3 +75,5 @@ func ReadMail(path string, option string) string {
 		return ""
 	}
 }
+
+

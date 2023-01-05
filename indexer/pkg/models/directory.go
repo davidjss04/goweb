@@ -19,11 +19,6 @@ type Directory struct {
 	Files *[]File      `json:"files"`
 }
 
-type Node struct {
-	Name     string
-	Children []*Node
-}
-
 func NewDirectory(path string) Directory {
 	newDir := Directory{}
 	newDir.Path = path
@@ -32,14 +27,14 @@ func NewDirectory(path string) Directory {
 	return newDir
 }
 
-func DirsExplorer(rootDir *Directory, recursiveScan bool, index *Index) {
+func DirecotoryExplorer(rootDir *Directory, index *Index) {
 	var wg sync.WaitGroup
 	wg.Add(1)
-	go dirsRunner(rootDir, recursiveScan, &wg, index)
+	go directoriesRunner(rootDir, &wg, index)
 	wg.Wait()
 }
 
-func dirsRunner(rootDir *Directory, recursiveScan bool, wg *sync.WaitGroup, index *Index) {
+func directoriesRunner(rootDir *Directory, wg *sync.WaitGroup, index *Index) {
 	defer wg.Done()
 	files, err := ioutil.ReadDir(rootDir.Path)
 
@@ -52,10 +47,9 @@ func dirsRunner(rootDir *Directory, recursiveScan bool, wg *sync.WaitGroup, inde
 		if file.IsDir() {
 			newDir := NewDirectory(filepath.Join(rootDir.Path, file.Name()))
 			*rootDir.Dirs = append(*rootDir.Dirs, newDir)
-			if !recursiveScan {
-				wg.Add(1)
-				go dirsRunner(&newDir, recursiveScan, wg, index)
-			}
+			wg.Add(1)
+			go directoriesRunner(&newDir, wg, index)
+
 		} else if !file.IsDir() {
 
 			fileURL := filepath.Join(rootDir.Path, file.Name())

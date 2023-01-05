@@ -19,9 +19,9 @@ watchEffect(() => {
 </script>
 
 <template lang="">
-    <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+    <div class="overflow-y-scroll" style="height: 85vh;">
         <table
-            class="w-full text-sm text-left text-gray-500 dark:text-gray-400"
+            class="text-sm text-left text-gray-500 dark:text-gray-400dark:border-gray-600 border-b table-auto overflow-scroll w-full"
         >
             <thead
                 class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400"
@@ -36,9 +36,9 @@ watchEffect(() => {
                     </th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody class="dark:hover:bg-gray-600 overflow-y-scroll w-full" style="height: 100vh;">
                 <tr
-                    class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                    class="w-full"
                     v-for="(mail, index) in state.mails"
                 >
                     <td class="px-6 py-4">{{ index }}</td>
